@@ -36,6 +36,6 @@ const fileFilter = function (req, file, cb) {
 // Inisialisasi upload multer
 const upload = multer({ storage: storage, fileFilter: fileFilter });
 
-router.post("/upload", upload.single("file"), fileController.uploadFile);
+router.route("/upload").post(upload.single("file"), fileController.uploadFile);
 
 module.exports = router;
