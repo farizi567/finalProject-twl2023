@@ -4,7 +4,7 @@ const fs = require("fs");
 exports.fileHandler = Multer({
   storage: Multer.diskStorage({
     destination: function (req, file, callback) {
-      callback(null, `${__dirname}/../uploads/`);
+      callback(null, `/tmp`);
     },
     filename: function (req, file, callback) {
       callback(
