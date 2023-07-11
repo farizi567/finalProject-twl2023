@@ -38,8 +38,8 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
-    '@nuxtjs/toast'
-    // '@nuxtjs/auth-next'
+    '@nuxtjs/toast',
+    '@nuxtjs/auth-next'
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -48,29 +48,35 @@ export default {
     baseURL: 'https://twl2023-2100016127-p6-7.vercel.app/'
   },
 
-  // auth: {
-  //   strategies: {
-  //     local: {
-  //       token: {
-  //         token: {
-  //           // property: false,
-  //           required: false
-  //           // global: false,
-  //           // type: 'Bearer'
-  //         }
-  //       },
-  //       user: {
-  //         property: 'data'
-  //         // autoFetch: true
-  //       },
-  //       endpoints: {
-  //         login: { url: 'users/login', method: 'post' },
-  //         // logout: { url: '/api/auth/logout', method: 'post' },
-  //         user: { url: 'users/logins', method: 'get' }
-  //       }
-  //     }
-  //   }
-  // },
+  auth: {
+    strategies: {
+      local: {
+        token: {
+          property: 'token',
+          global: true,
+          required: true,
+          type: 'Bearer'
+        },
+        user: {
+          property: 'data'
+        },
+        endpoints: {
+          login: { url: 'users/login', method: 'post' },
+          logout: false,
+          user: {
+            url: 'users/me',
+            method: 'get',
+            propertyName: 'data'
+          }
+        }
+      }
+    },
+
+    redirect: {
+      login: '/login',
+      home: '/beranda'
+    }
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
