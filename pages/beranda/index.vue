@@ -72,8 +72,8 @@
               class="hidden"
               @change="onFileChange"
             >
-            <p v-if="form.file" class="text-center">
-              {{ form.file }}
+            <p v-if="fileName" class="text-center">
+              {{ fileName }}
             </p>
             <label
               for="berkas"
@@ -99,6 +99,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   data () {
     return {
@@ -159,6 +160,7 @@ export default {
   },
 
   methods: {
+    ...mapActions('upload', ['uploadForm']),
     checkInput () {
       this.disabled = !Object.keys(this.form).every(e => this.form[e] !== '')
     },
@@ -166,7 +168,8 @@ export default {
     onFileChange (event) {
       const file = event.target.files[0]
       if (file) {
-        this.form.file = file.name
+        this.fileName = file.name
+        this.form.file = file
         // Anda dapat melakukan tindakan lain dengan file di sini
       }
     },
@@ -177,6 +180,25 @@ export default {
     validasiNim () {
       const nim = /^[0-9]+$/
       return this.form.nim !== '' && nim.test(this.form.nim)
+    },
+
+    async submitForm () {
+      const data = {
+        nama: this.form.nama,
+        nim: this.form.nim,
+        prodi: this.form.prodi,
+        file: this.form.file
+      }
+      const response = await this.uploadForm(data)
+      console.log(response, 'res uplaod file')
+      if (response.data.status === 200) {
+        this.$toast.success(response.message)
+        setTimeout(() => {
+          window.location.reload() // Refresh halaman setelah penundaan 1000ms (1 detik)
+        }, 1000)
+      } else {
+        this.$toast.error(response.message)
+      }
     }
   }
 }
