@@ -115,9 +115,10 @@ const getDataUser = async (req, res) => {
 
   if (token) {
     try {
-      const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+      // Menghapus awalan "Bearer " dari token
+      const tokenWithoutBearer = token.replace("Bearer ", "");
+      const decodedToken = jwt.verify(tokenWithoutBearer, process.env.JWT_SECRET);
       const userId = decodedToken.userId;
-      console.log(userId)
       
       // Cari user berdasarkan userId
       const user = await User.findById(userId);
@@ -147,6 +148,7 @@ const getDataUser = async (req, res) => {
     });
   }
 };
+
 
 module.exports = {
   registerUser,
