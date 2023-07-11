@@ -8,7 +8,7 @@ const fileController = require("../controllers/fileController");
 
 router.route("/register").post(registerUser);
 router.route("/login").post(loginUser);
-router.route("/user/current").get(getDataUser);
+router.route("/me").get(getDataUser);
 router
   .route("/upload")
   .post(fileHandler.single("file"), fileController.uploadFile);
