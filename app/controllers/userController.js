@@ -36,11 +36,14 @@ const registerUser = asyncHandler(async (req, res) => {
     });
   }
 
+  // Hash password
+  const hashedPassword = await bcrypt.hash(password, 10);
+
   //NOTE -  Create User
   const user = await User.create({
     username,
     email,
-    password,
+    password: hashedPassword,
   });
 
   if (user) {
@@ -92,9 +95,6 @@ const loginUser = asyncHandler(async (req, res) => {
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
-
-    user.token = token;
-    await user.save();
 
     res.status(200).json({
       status: 200,
