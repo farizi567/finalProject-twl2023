@@ -99,8 +99,8 @@ const loginUser = asyncHandler(async (req, res) => {
     res.status(200).json({
       status: 200,
       message: "Login successful",
+      token,
       data: {
-        token,
         ...user._doc,
       },
     });
@@ -117,6 +117,7 @@ const getDataUser = async (req, res) => {
     try {
       const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
       const userId = decodedToken.userId;
+      console.log(userId)
       
       // Cari user berdasarkan userId
       const user = await User.findById(userId);
