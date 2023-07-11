@@ -101,6 +101,7 @@
 <script>
 import { mapActions } from 'vuex'
 export default {
+  middleware: 'auth',
   data () {
     return {
       disabled: true,
@@ -158,6 +159,8 @@ export default {
       }
     }
   },
+
+  created () {},
 
   methods: {
     ...mapActions('upload', ['uploadForm']),
