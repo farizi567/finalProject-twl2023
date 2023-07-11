@@ -93,6 +93,9 @@ const loginUser = asyncHandler(async (req, res) => {
       expiresIn: "1h",
     });
 
+    user.token = token;
+    await user.save();
+
     res.status(200).json({
       status: 200,
       message: "Login successful",
