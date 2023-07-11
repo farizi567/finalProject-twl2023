@@ -110,7 +110,45 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 });
 
+const getDataUser = async (req, res) => {
+  const token = req.headers.authorization;
+
+  if (token) {
+    try {
+      const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+      const userId = decodedToken.userId;
+      
+      // Cari user berdasarkan userId
+      const user = await User.findById(userId);
+      
+      if (user) {
+        res.status(200).json({
+          status: 200,
+          message: "User data retrieved successfully",
+          data: user,
+        });
+      } else {
+        res.status(404).json({
+          status: 404,
+          message: "User not found",
+        });
+      }
+    } catch (error) {
+      res.status(401).json({
+        status: 401,
+        message: "Invalid token",
+      });
+    }
+  } else {
+    res.status(401).json({
+      status: 401,
+      message: "No token provided",
+    });
+  }
+};
+
 module.exports = {
   registerUser,
   loginUser,
+  getDataUser,
 };
