@@ -132,7 +132,7 @@ export default {
         email: this.form.email,
         password: this.form.password
       }
-      const response = await this.loginUser(data)
+      const response = await this.loginUser({ data })
       if (response.status === 200) {
         console.log(response)
         this.$toast.success(response.message)
