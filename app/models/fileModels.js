@@ -6,6 +6,7 @@ const formSchema = new mongoose.Schema(
     nim: String,
     prodi: String,
     file: String,
+    googleDriveId: String,
   },
   {
     timestamps: true,
