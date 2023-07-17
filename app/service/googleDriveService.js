@@ -32,7 +32,24 @@ exports.uploadToGoogleDrive = async (file) => {
   return response;
 };
 
-exports.deleteFromGoogleDrive = async (imageID) => {
+exports.getAllFilesFromGoogleDrive = async () => {
+  try {
+    const auth = authenticateGoogle();
+    const driveService = google.drive({ version: "v3", auth });
+
+    const response = await driveService.files.list({
+      fields: "files(id, name)",
+      q: "mimeType != 'application/vnd.google-apps.folder'",
+    });
+
+    return response.data.files;
+  } catch (error) {
+    console.error("Error getting files from Google Drive:", error);
+    throw error;
+  }
+};
+
+exports.deleteFileFromGoogleDrive = async (imageID) => {
   const auth = authenticateGoogle();
   const driveService = google.drive({ version: "v3", auth });
   const response = await driveService.files.delete({
