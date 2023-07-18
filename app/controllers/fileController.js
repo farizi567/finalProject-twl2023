@@ -1,5 +1,5 @@
 const Form = require("../models/fileModels");
-const { uploadToGoogleDrive, deleteFileFromGoogleDrive, getAllFilesFromGoogleDrive   } = require("../service/googleDriveService");
+const { uploadToGoogleDrive, deleteFileFromGoogleDrive, getAllFilesFromGoogleDrive, updateFileNameInGoogleDrive   } = require("../service/googleDriveService");
 
 const uploadFile = async (req, res) => {
   try {
@@ -69,10 +69,35 @@ const deleteFile = async (req, res) => {
   }
 };
 
+const updateFileName = async (req, res) => {
+  const fileId = req.params.id; // Mendapatkan ID file dari parameter URL atau request body
+  const { newName } = req.body; // Mendapatkan nama baru dari request body
+
+  try {
+    const file = await Form.findOneAndUpdate(
+      { googleDriveId: fileId },
+      { file: newName },
+      { new: true }
+    );
+
+    if (!file) {
+      return res.status(404).json({ message: 'File not found' });
+    }
+
+    await updateFileNameInGoogleDrive(file.googleDriveId, newName);
+
+    res.status(200).json({ message: 'File name updated successfully' });
+  } catch (error) {
+    console.error('Error updating file name:', error);
+    res.status(500).json({ message: 'Failed to update file name' });
+  }
+};
+
 
 
 module.exports = {
   uploadFile,
   getDataFromGoogleDrive,
   deleteFile,
+  updateFileName
 };
