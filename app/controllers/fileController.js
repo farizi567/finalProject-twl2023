@@ -86,7 +86,7 @@ const updateFileName = async (req, res) => {
 
     await updateFileNameInGoogleDrive(file.googleDriveId, newName);
 
-    res.status(200).json({ message: 'File name updated successfully' });
+    res.status(200).json({ status:200, message: 'File name updated successfully' });
   } catch (error) {
     console.error('Error updating file name:', error);
     res.status(500).json({ message: 'Failed to update file name' });
