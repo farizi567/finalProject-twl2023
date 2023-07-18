@@ -6,6 +6,9 @@
           Pengiriman Dokumen
         </h1>
       </div>
+      <NuxtLink to="/beranda/folder" class="text-blue-700 underline">
+        Lihat File
+      </NuxtLink>
       <form
         enctype="multipart/form-data"
         class="flex flex-col gap-3"
@@ -163,7 +166,7 @@ export default {
   created () {},
 
   methods: {
-    ...mapActions('upload', ['uploadForm']),
+    ...mapActions('crud', ['uploadForm']),
     checkInput () {
       this.disabled = !Object.keys(this.form).every(e => this.form[e] !== '')
     },
