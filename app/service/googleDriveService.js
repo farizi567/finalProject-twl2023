@@ -57,3 +57,23 @@ exports.deleteFileFromGoogleDrive = async (imageID) => {
   });
   return response;
 };
+
+exports.updateFileNameInGoogleDrive = async (googleDriveId, newName) => {
+  const auth = authenticateGoogle();
+  const driveService = google.drive({ version: 'v3', auth });
+
+  try {
+    const response = await driveService.files.update({
+      fileId: googleDriveId,
+      requestBody: {
+        name: newName
+      }
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error('Error updating file name in Google Drive:', error);
+    throw error;
+  }
+};
+
