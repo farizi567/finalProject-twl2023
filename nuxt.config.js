@@ -4,7 +4,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'prak-4',
+    title: 'final-project-twl-2023',
     htmlAttrs: {
       lang: 'en'
     },
